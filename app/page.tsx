@@ -110,25 +110,21 @@ export default async function Home() {
             </div>
             <p className="text-[11px] font-bold text-black/55">公式基準価額から算出</p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[520px] text-left text-sm">
-              <thead className="border-b-2 border-black/10 bg-white/50 text-xs text-black/55">
-                <tr><th className="px-5 py-3 sm:px-7">日付</th><th className="px-4 py-3 text-right">基準価額</th><th className="px-4 py-3 text-right">騰落額</th><th className="px-5 py-3 text-right sm:px-7">騰落率</th></tr>
-              </thead>
-              <tbody>
-                {data.dailyChanges.map((item) => {
-                  const up = item.amount >= 0;
-                  return (
-                    <tr key={item.date} className="border-b border-black/10 last:border-0">
-                      <td className="px-5 py-3 font-black sm:px-7">{item.date}</td>
-                      <td className="px-4 py-3 text-right font-bold">{yen.format(item.value)}円</td>
-                      <td className={`px-4 py-3 text-right font-black ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}>{up ? "↑ +" : "↓ "}{yen.format(item.amount)}円</td>
-                      <td className={`px-5 py-3 text-right font-black sm:px-7 ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}>{up ? "+" : ""}{item.rate.toFixed(2)}%</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+          <div>
+            <div className="hidden grid-cols-4 border-b-2 border-black/10 bg-white/50 px-7 py-3 text-xs text-black/55 sm:grid">
+              <span>日付</span><span className="text-right">基準価額</span><span className="text-right">騰落額</span><span className="text-right">騰落率</span>
+            </div>
+            {data.dailyChanges.map((item) => {
+              const up = item.amount >= 0;
+              return (
+                <div key={item.date} className="grid grid-cols-2 gap-x-4 gap-y-2 border-b border-black/10 px-5 py-4 text-sm last:border-0 sm:grid-cols-4 sm:px-7 sm:py-3">
+                  <div><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">日付</span><span className="font-black">{item.date}</span></div>
+                  <div className="text-right"><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">基準価額</span><span className="font-bold">{yen.format(item.value)}円</span></div>
+                  <div className={`sm:text-right ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">騰落額</span><span className="font-black">{up ? "↑ +" : "↓ "}{yen.format(item.amount)}円</span></div>
+                  <div className={`text-right ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">騰落率</span><span className="font-black">{up ? "+" : ""}{item.rate.toFixed(2)}%</span></div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
