@@ -2,6 +2,7 @@ import { ForecastChart } from "@/components/forecast-chart";
 import { AssetSimulator } from "@/components/asset-simulator";
 import { AutoRefresh } from "@/components/auto-refresh";
 import { VirtualMotion } from "@/components/virtual-motion";
+import { AllCountryKun } from "@/components/all-country-kun";
 import { ArrowUpRightIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
 
@@ -39,6 +40,7 @@ export default async function Home() {
       </header>
 
       <div className="relative mx-auto max-w-6xl px-5 pb-12 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-16">
+        <AllCountryKun />
         <section className="mb-5 hidden flex-col gap-3 sm:mb-7 sm:flex sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-tag mb-3 w-fit border-2 border-black bg-[#c7a87e] px-3 py-1 text-xs font-black tracking-[0.13em]">TODAY&apos;S OUTLOOK</p>
@@ -71,7 +73,7 @@ export default async function Home() {
                 <span className="pb-1.5 text-lg font-black sm:pb-2">円</span>
               </div>
               <div className="mt-5 flex flex-wrap items-center gap-3 border-t-2 border-black/25 pt-4 sm:mt-7 sm:pt-5">
-                <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-[#ffdf55]" : "bg-rose-200"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
+                <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-emerald-300" : "bg-amber-300"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
                 <span className="font-display text-xl font-black">{isUp ? "+" : ""}{data.changeRate.toFixed(2)}%</span>
                 <span className="text-xs text-black/60">前回比</span>
                 <span className="paper-label ml-auto inline-flex items-center gap-2 bg-[#54d9ff] px-3 py-1.5 text-sm font-black sm:hidden">
@@ -113,14 +115,20 @@ export default async function Home() {
             <p className="text-[11px] font-bold text-black/55">公式基準価額から算出</p>
           </div>
           <div>
-            <div className="hidden grid-cols-4 border-b-2 border-black/10 bg-white/50 px-7 py-3 text-xs text-black/55 sm:grid"><span>日付</span><span className="text-right">基準価額</span><span className="text-right">騰落額</span><span className="text-right">騰落率</span></div>
-            {data.dailyChanges.map((item) => { const up = item.amount >= 0; return (
-              <div key={item.date} className="grid grid-cols-2 gap-x-4 gap-y-2 border-b border-black/10 px-5 py-4 text-sm last:border-0 sm:grid-cols-4 sm:px-7 sm:py-3">
-                <div><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">日付</span><span className="font-black">{item.date}</span></div>
-                <div className="text-right"><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">基準価額</span><span className="font-bold">{yen.format(item.value)}円</span></div>
-                <div className={`sm:text-right ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">騰落額</span><span className="font-black">{up ? "↑ +" : "↓ "}{yen.format(item.amount)}円</span></div>
-                <div className={`text-right ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">騰落率</span><span className="font-black">{up ? "+" : ""}{item.rate.toFixed(2)}%</span></div>
-              </div> ); })}
+            <div className="hidden grid-cols-4 border-b-2 border-black/10 bg-white/50 px-7 py-3 text-xs text-black/55 sm:grid">
+              <span>日付</span><span className="text-right">基準価額</span><span className="text-right">騰落額</span><span className="text-right">騰落率</span>
+            </div>
+            {data.dailyChanges.map((item) => {
+              const up = item.amount >= 0;
+              return (
+                <div key={item.date} className="grid grid-cols-2 gap-x-4 gap-y-2 border-b border-black/10 px-5 py-4 text-sm last:border-0 sm:grid-cols-4 sm:px-7 sm:py-3">
+                  <div><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">日付</span><span className="font-black">{item.date}</span></div>
+                  <div className="text-right"><span className="mb-1 block text-[10px] font-bold text-black/45 sm:hidden">基準価額</span><span className="font-bold">{yen.format(item.value)}円</span></div>
+                  <div className={`sm:text-right ${up ? "text-emerald-300" : "text-amber-300"}`}><span className="mb-1 block text-[10px] font-bold text-white/45 sm:hidden">騰落額</span><span className="font-black">{up ? "↑ +" : "↓ "}{yen.format(item.amount)}円</span></div>
+                  <div className={`text-right ${up ? "text-emerald-300" : "text-amber-300"}`}><span className="mb-1 block text-[10px] font-bold text-white/45 sm:hidden">騰落率</span><span className="font-black">{up ? "+" : ""}{item.rate.toFixed(2)}%</span></div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
