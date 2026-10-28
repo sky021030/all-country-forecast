@@ -4,6 +4,13 @@ export type ForecastPoint = {
   kind: "actual" | "forecast";
 };
 
+export type DailyChange = {
+  date: string;
+  value: number;
+  amount: number;
+  rate: number;
+};
+
 export type ForecastData = {
   fundName: string;
   fundShortName: string;
@@ -11,6 +18,8 @@ export type ForecastData = {
   previousDate: string;
   forecastValue: number;
   forecastDate: string;
+  forecastTitle: string;
+  cutoffStatus: string;
   changeAmount: number;
   changeRate: number;
   usdJpy: number;
@@ -19,6 +28,7 @@ export type ForecastData = {
   fxReturn: number;
   updatedAt: string;
   points: ForecastPoint[];
+  dailyChanges: DailyChange[];
   isLive: boolean;
   statusMessage: string;
 };
@@ -69,7 +79,7 @@ function formatLongDate(value: string): string {
   return `${value.slice(0, 4)}年${Number(value.slice(4, 6))}月${Number(value.slice(6, 8))}日`;
 }
 
-function tokyoNow(): { date: string; dateTime: string } {
+function tokyoNow(): { date: string; compactDate: string; dateTime: string; afterCutoff: boolean } {
   const now = new Date();
   const date = new Intl.DateTimeFormat("ja-JP", {
     timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit",
@@ -78,7 +88,17 @@ function tokyoNow(): { date: string; dateTime: string } {
     timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit",
     hour: "2-digit", minute: "2-digit", hour12: false,
   }).format(now);
-  return { date, dateTime };
+  const timeParts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  }).formatToParts(now);
+  const hour = Number(timeParts.find((part) => part.type === "hour")?.value ?? 0);
+  const minute = Number(timeParts.find((part) => part.type === "minute")?.value ?? 0);
+  return {
+    date,
+    compactDate: date.replaceAll("/", ""),
+    dateTime,
+    afterCutoff: hour > 18 || (hour === 18 && minute >= 30),
+  };
 }
 
 export async function getForecastData(): Promise<ForecastData> {
@@ -114,8 +134,19 @@ export async function getForecastData(): Promise<ForecastData> {
   const forecastReturn = (1 + marketReturn) * (1 + fxReturn) - 1;
   const forecastValue = Math.round(latestFund.BASE_PRICE * (1 + forecastReturn));
   const changeAmount = forecastValue - latestFund.BASE_PRICE;
-  const { date, dateTime } = tokyoNow();
+  const { date, compactDate, dateTime, afterCutoff } = tokyoNow();
   const isLive = fundLive && marketLive;
+  const officialToday = latestFund.BASE_DATE === compactDate;
+  const dailyChanges = rows.slice(1).map((row, index) => {
+    const previous = rows[index];
+    const amount = row.BASE_PRICE - previous.BASE_PRICE;
+    return {
+      date: formatFundDate(row.BASE_DATE),
+      value: row.BASE_PRICE,
+      amount,
+      rate: (amount / previous.BASE_PRICE) * 100,
+    };
+  }).reverse();
 
   return {
     fundName: "eMAXIS Slim 全世界株式（オール・カントリー）",
@@ -123,7 +154,13 @@ export async function getForecastData(): Promise<ForecastData> {
     previousValue: latestFund.BASE_PRICE,
     previousDate: formatLongDate(latestFund.BASE_DATE),
     forecastValue,
-    forecastDate: date,
+    forecastDate: officialToday ? "次回営業日" : date,
+    forecastTitle: officialToday ? "次回営業日の予測基準価額" : "今日の予測基準価額",
+    cutoffStatus: officialToday
+      ? "本日分の公式値を確認済み・次回営業日を予測中"
+      : afterCutoff
+        ? "18:30締め予測・公式基準価額の更新待ち"
+        : "18:30に当日予測を締めます",
     changeAmount,
     changeRate: forecastReturn * 100,
     usdJpy: fxLatest,
@@ -135,6 +172,7 @@ export async function getForecastData(): Promise<ForecastData> {
       ...rows.slice(-6).map((row) => ({ date: formatFundDate(row.BASE_DATE), value: row.BASE_PRICE, kind: "actual" as const })),
       { date: "予測", value: forecastValue, kind: "forecast" as const },
     ],
+    dailyChanges,
     isLive,
     statusMessage: isLive
       ? "公式基準価額と市場データを取得済み"
