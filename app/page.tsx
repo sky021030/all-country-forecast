@@ -1,4 +1,5 @@
 import { ForecastChart } from "@/components/forecast-chart";
+import { AssetSimulator } from "@/components/asset-simulator";
 import { ArrowUpRightIcon, ClockIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
 
@@ -9,16 +10,17 @@ export default async function Home() {
   const isUp = data.changeAmount >= 0;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#f4f7f4] text-[#18302b]">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_8%_4%,rgba(250,205,133,0.22),transparent_28%),radial-gradient(circle_at_92%_18%,rgba(82,177,142,0.16),transparent_30%)]" />
+    <main className="voxel-world min-h-screen overflow-hidden text-[#18302b]">
+      <div className="voxel-sky" aria-hidden="true"><span className="voxel-sun" /><span className="voxel-cloud voxel-cloud-one" /><span className="voxel-cloud voxel-cloud-two" /></div>
+      <div className="voxel-ground" aria-hidden="true" />
 
-      <header className="relative border-b border-[#dfe8e3] bg-[#f8faf8]/80 backdrop-blur-xl">
+      <header className="voxel-header relative border-b-4 border-[#315f46] bg-[#f8faf8]/90">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#173f35] text-[#d9f4e8] shadow-sm"><GlobeIcon className="h-5 w-5" /></div>
+            <div className="voxel-logo grid h-10 w-10 place-items-center bg-[#173f35] text-[#d9f4e8]"><GlobeIcon className="h-5 w-5" /></div>
             <div>
               <p className="font-display text-lg font-semibold tracking-tight text-[#173f35]">オルカン予報</p>
-              <p className="text-[10px] font-medium tracking-[0.2em] text-[#75857f]">ALL COUNTRY FORECAST</p>
+              <p className="text-[10px] font-bold tracking-[0.2em] text-[#75857f]">WORLD 01 · ALL COUNTRY</p>
             </div>
           </div>
           <span className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${data.isLive ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-800"}`}>
@@ -41,7 +43,7 @@ export default async function Home() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="relative overflow-hidden rounded-[28px] bg-[#163f35] p-6 text-white shadow-[0_24px_60px_-25px_rgba(17,62,49,0.6)] sm:p-9">
+          <div className="voxel-hero relative overflow-hidden bg-[#163f35] p-6 text-white sm:p-9">
             <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[44px] border-white/[0.035]" />
             <div className="absolute bottom-0 right-0 h-32 w-40 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1.5px)] [background-size:12px_12px]" />
             <div className="relative">
@@ -70,7 +72,9 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="mt-5 rounded-[28px] border border-white/80 bg-white/80 p-5 shadow-card backdrop-blur-sm sm:p-7 lg:p-8">
+        <AssetSimulator changeRate={data.changeRate} />
+
+        <section className="voxel-panel mt-6 border-2 border-[#b8cbbb] bg-white/90 p-5 sm:p-7 lg:p-8">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold tracking-[0.12em] text-[#14815d]">PRICE TREND</p>
@@ -90,12 +94,12 @@ export default async function Home() {
           <ModelCard label="予測モデル" value="株価 × 為替" detail="円換算の概算リターン" />
         </section>
 
-        <aside className="mt-5 flex gap-3 rounded-2xl border border-[#d6e5df] bg-white/70 p-4 text-sm leading-relaxed text-[#536a62]">
+        <aside className="voxel-note mt-6 flex gap-3 border-2 border-[#9fb9a7] bg-[#f5f1db]/95 p-4 text-sm leading-relaxed text-[#536a62]">
           <InfoIcon className="mt-0.5 h-5 w-5 shrink-0 text-[#2f8b69]" />
           <p><strong className="font-bold text-[#254c40]">実データを使った参考予測です。</strong> 基準価額は三菱UFJアセットマネジメント、世界株と為替はYahoo Financeの公開市場データを参照しています。予測値はACWI ETFとドル円を使った概算で、将来の基準価額を保証するものではありません。</p>
         </aside>
 
-        <footer className="mt-8 flex flex-col gap-2 border-t border-[#dbe5e0] pt-6 text-xs text-[#798781] sm:flex-row sm:items-center sm:justify-between">
+        <footer className="relative mt-10 flex flex-col gap-2 border-t-4 border-[#5d7f55] bg-[#eef4e8]/80 px-4 pb-4 pt-6 text-xs font-medium text-[#61736b] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 オルカン予報</p>
           <p>データ参照：三菱UFJアセットマネジメント / Yahoo Finance · 投資判断はご自身の責任で行ってください</p>
         </footer>
@@ -106,7 +110,7 @@ export default async function Home() {
 
 function ModelCard({ label, value, detail }: { label: string; value: string; detail: string }) {
   return (
-    <div className="rounded-2xl border border-white/80 bg-white/70 p-4 shadow-card backdrop-blur-sm">
+    <div className="voxel-panel border-2 border-[#b8cbbb] bg-white/85 p-4">
       <p className="text-xs font-semibold text-[#71817b]">{label}</p>
       <p className="mt-2 font-display text-xl font-semibold text-[#18352e]">{value}</p>
       <p className="mt-1 text-[11px] text-[#8a9893]">{detail}</p>
@@ -116,7 +120,7 @@ function ModelCard({ label, value, detail }: { label: string; value: string; det
 
 function MetricCard({ label, value, note, accent = false }: { label: string; value: string; note: string; accent?: boolean }) {
   return (
-    <div className="rounded-3xl border border-white/90 bg-white/85 p-5 shadow-card backdrop-blur-sm sm:p-6">
+    <div className="voxel-panel border-2 border-[#b8cbbb] bg-white/90 p-5 sm:p-6">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-semibold text-[#697b75] sm:text-sm">{label}</p>
         <span className={`h-2.5 w-2.5 rounded-full ${accent ? "bg-[#f4aa42]" : "bg-[#49ad89]"}`} />

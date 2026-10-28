@@ -29,3 +29,98 @@ body {
 .recharts-surface:focus {
   outline: none;
 }
+
+.voxel-world {
+  position: relative;
+  background:
+    linear-gradient(rgba(255,255,255,.72), rgba(255,255,255,.72)),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(39, 91, 66, .06) 31px 32px),
+    repeating-linear-gradient(90deg, transparent 0 31px, rgba(39, 91, 66, .06) 31px 32px),
+    linear-gradient(#bfe3ee 0 38%, #d9edc7 38% 100%);
+}
+
+.voxel-sky {
+  pointer-events: none;
+  position: absolute;
+  inset: 74px 0 auto;
+  height: 430px;
+  overflow: hidden;
+  opacity: .72;
+}
+
+.voxel-sun {
+  position: absolute;
+  right: 7%;
+  top: 42px;
+  width: 58px;
+  height: 58px;
+  background: #ffd56b;
+  box-shadow: 0 0 0 8px rgba(255, 226, 139, .32), 8px 8px 0 rgba(171, 128, 37, .15);
+}
+
+.voxel-cloud {
+  position: absolute;
+  width: 88px;
+  height: 22px;
+  background: rgba(255,255,255,.85);
+  box-shadow: 22px -18px 0 rgba(255,255,255,.85), 44px 0 0 rgba(255,255,255,.85);
+}
+
+.voxel-cloud-one { left: 6%; top: 70px; }
+.voxel-cloud-two { right: 26%; top: 125px; transform: scale(.72); }
+
+.voxel-ground {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  opacity: .34;
+  background:
+    linear-gradient(90deg, transparent 0 8%, #5e9d52 8% 17%, transparent 17% 28%, #4f8d45 28% 43%, transparent 43% 70%, #6ba65c 70% 86%, transparent 86%),
+    repeating-linear-gradient(90deg, #7c5d3d 0 32px, #6f5235 32px 64px);
+  clip-path: polygon(0 55%, 8% 55%, 8% 36%, 17% 36%, 17% 65%, 28% 65%, 28% 25%, 43% 25%, 43% 70%, 70% 70%, 70% 42%, 86% 42%, 86% 60%, 100% 60%, 100% 100%, 0 100%);
+}
+
+.voxel-header {
+  box-shadow: 0 5px 0 rgba(80, 112, 78, .18);
+}
+
+.voxel-logo {
+  border: 2px solid #0e2d25;
+  box-shadow: 4px 4px 0 #79a878;
+}
+
+.voxel-hero {
+  border: 3px solid #0d2d25;
+  border-radius: 8px;
+  box-shadow: 8px 8px 0 #78a96f, 12px 12px 0 rgba(80, 64, 42, .2);
+}
+
+.voxel-panel {
+  border-radius: 6px;
+  box-shadow: 7px 7px 0 rgba(79, 119, 83, .25);
+}
+
+.voxel-note {
+  border-radius: 4px;
+  box-shadow: 5px 5px 0 rgba(109, 124, 75, .2);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #103d30;
+  border-radius: 2px;
+  background: #8dca78;
+  box-shadow: 3px 3px 0 rgba(16, 61, 48, .24);
+}
+
+@media (max-width: 640px) {
+  .voxel-sun { right: 5%; width: 38px; height: 38px; }
+  .voxel-cloud-two { display: none; }
+  .voxel-panel { box-shadow: 5px 5px 0 rgba(79, 119, 83, .23); }
+  .voxel-hero { box-shadow: 6px 6px 0 #78a96f; }
+}
