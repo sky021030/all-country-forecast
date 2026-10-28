@@ -21,7 +21,10 @@ export default async function Home() {
               <p className="text-[10px] font-medium tracking-[0.2em] text-[#75857f]">ALL COUNTRY FORECAST</p>
             </div>
           </div>
-          <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-800">STEP 1 · サンプル版</span>
+          <span className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${data.isLive ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-800"}`}>
+            <span className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${data.isLive ? "bg-emerald-500" : "bg-amber-500"}`} />
+            {data.isLive ? "LIVE DATA" : "データ取得確認中"}
+          </span>
         </div>
       </header>
 
@@ -31,7 +34,10 @@ export default async function Home() {
             <p className="mb-2 flex items-center gap-2 text-xs font-semibold tracking-[0.13em] text-[#14815d]"><span className="h-px w-6 bg-[#14815d]" />TODAY&apos;S OUTLOOK</p>
             <h1 className="max-w-2xl text-xl font-bold leading-snug text-[#18302b] sm:text-2xl">{data.fundName}</h1>
           </div>
-          <p className="flex items-center gap-1.5 text-xs text-[#6d7d78]"><ClockIcon className="h-4 w-4" />最終更新 {data.updatedAt}</p>
+          <div className="text-right">
+            <p className="flex items-center justify-end gap-1.5 text-xs text-[#6d7d78]"><ClockIcon className="h-4 w-4" />最終更新 {data.updatedAt}</p>
+            <p className={`mt-1 text-[10px] font-medium ${data.isLive ? "text-emerald-600" : "text-amber-700"}`}>{data.statusMessage}</p>
+          </div>
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
@@ -44,7 +50,7 @@ export default async function Home() {
                   <p className="text-sm font-medium text-[#b9d6cd]">今日の予測基準価額</p>
                   <p className="mt-1 text-xs text-[#7fa99b]">1万口あたり</p>
                 </div>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-[#d4e7e0]">10月28日 予測</span>
+                <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-[#d4e7e0]">{data.forecastDate} 予測</span>
               </div>
               <div className="mt-7 flex items-end gap-2 sm:mt-9">
                 <span className="font-display text-[58px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
@@ -59,8 +65,8 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
-            <MetricCard label="前回の基準価額" value={`${yen.format(data.previousValue)}円`} note="10月27日 公表値" />
-            <MetricCard label="ドル円" value={`${data.usdJpy.toFixed(2)}円`} note={`前日比 +${data.usdJpyChange.toFixed(2)}円`} accent />
+            <MetricCard label="前回の基準価額" value={`${yen.format(data.previousValue)}円`} note={`${data.previousDate} 公式公表値`} />
+            <MetricCard label="ドル円" value={`${data.usdJpy.toFixed(2)}円`} note={`直近比 ${data.usdJpyChange >= 0 ? "+" : ""}${data.usdJpyChange.toFixed(2)}円`} accent />
           </div>
         </section>
 
@@ -78,17 +84,33 @@ export default async function Home() {
           <div className="mt-4"><ForecastChart data={data.points} /></div>
         </section>
 
-        <aside className="mt-5 flex gap-3 rounded-2xl border border-amber-200/80 bg-[#fff9ed] p-4 text-sm leading-relaxed text-[#72562d]">
-          <InfoIcon className="mt-0.5 h-5 w-5 shrink-0 text-[#c4872e]" />
-          <p><strong className="font-bold">このページはサンプルデータで表示しています。</strong><br className="sm:hidden" /> 実際の基準価額・為替レートではありません。投資判断には利用せず、最新情報は運用会社の公式サイトでご確認ください。</p>
+        <section className="mt-5 grid gap-4 sm:grid-cols-3">
+          <ModelCard label="世界株の変動" value={`${data.marketReturn >= 0 ? "+" : ""}${data.marketReturn.toFixed(2)}%`} detail="ACWI ETF・直近取引比" />
+          <ModelCard label="為替の変動" value={`${data.fxReturn >= 0 ? "+" : ""}${data.fxReturn.toFixed(2)}%`} detail="USD/JPY・直近比" />
+          <ModelCard label="予測モデル" value="株価 × 為替" detail="円換算の概算リターン" />
+        </section>
+
+        <aside className="mt-5 flex gap-3 rounded-2xl border border-[#d6e5df] bg-white/70 p-4 text-sm leading-relaxed text-[#536a62]">
+          <InfoIcon className="mt-0.5 h-5 w-5 shrink-0 text-[#2f8b69]" />
+          <p><strong className="font-bold text-[#254c40]">実データを使った参考予測です。</strong> 基準価額は三菱UFJアセットマネジメント、世界株と為替はYahoo Financeの公開市場データを参照しています。予測値はACWI ETFとドル円を使った概算で、将来の基準価額を保証するものではありません。</p>
         </aside>
 
         <footer className="mt-8 flex flex-col gap-2 border-t border-[#dbe5e0] pt-6 text-xs text-[#798781] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 オルカン予報</p>
-          <p>データ提供：サンプル · 投資判断はご自身の責任で行ってください</p>
+          <p>データ参照：三菱UFJアセットマネジメント / Yahoo Finance · 投資判断はご自身の責任で行ってください</p>
         </footer>
       </div>
     </main>
+  );
+}
+
+function ModelCard({ label, value, detail }: { label: string; value: string; detail: string }) {
+  return (
+    <div className="rounded-2xl border border-white/80 bg-white/70 p-4 shadow-card backdrop-blur-sm">
+      <p className="text-xs font-semibold text-[#71817b]">{label}</p>
+      <p className="mt-2 font-display text-xl font-semibold text-[#18352e]">{value}</p>
+      <p className="mt-1 text-[11px] text-[#8a9893]">{detail}</p>
+    </div>
   );
 }
 
