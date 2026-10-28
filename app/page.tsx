@@ -5,12 +5,14 @@ import { VirtualMotion } from "@/components/virtual-motion";
 import { AllCountryKun } from "@/components/all-country-kun";
 import { ArrowUpRightIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
+import type { CSSProperties } from "react";
 
 const yen = new Intl.NumberFormat("ja-JP");
 
 export default async function Home() {
   const data = await getForecastData();
   const isUp = data.changeAmount >= 0;
+  const gaugeLevel = Math.min(100, Math.max(8, Math.abs(data.changeRate) / 2 * 100));
 
   return (
     <main className="curiosity-world min-h-screen overflow-hidden text-[#171717]">
@@ -72,7 +74,20 @@ export default async function Home() {
                 <span className="font-display text-[54px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
                 <span className="forecast-currency">円</span>
               </div>
-              <div className="mt-5 flex flex-wrap items-center gap-3 border-t-2 border-black/25 pt-4 sm:mt-7 sm:pt-5">
+              <div
+                className={`forecast-energy-gauge ${isUp ? "is-up" : "is-down"}`}
+                style={{ "--gauge-level": `${gaugeLevel}%` } as CSSProperties}
+                role="meter"
+                aria-label="予測変動ゲージ"
+                aria-valuemin={0}
+                aria-valuemax={2}
+                aria-valuenow={Math.abs(data.changeRate)}
+              >
+                <span className="gauge-label">FORECAST PULSE</span>
+                <span className="gauge-track"><i /><b /></span>
+                <span className="gauge-value">{isUp ? "UP" : "DOWN"} {Math.abs(data.changeRate).toFixed(2)}%</span>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-3 pt-2 sm:mt-4 sm:pt-3">
                 <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-emerald-300" : "bg-amber-300"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
                 <span className="font-display text-xl font-black">{isUp ? "+" : ""}{data.changeRate.toFixed(2)}%</span>
                 <span className="text-xs text-black/60">前回比</span>
