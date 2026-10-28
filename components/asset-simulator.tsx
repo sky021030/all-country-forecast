@@ -105,9 +105,9 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
         </div>
 
         <div className="order-1 grid grid-cols-2 gap-3 lg:order-2">
-          <div className={`border-4 border-black p-4 shadow-[6px_6px_0_#ff4f9a] ${isUp ? "bg-[#5fffd1]" : "bg-rose-200"}`}>
+          <div className={`border-4 border-black p-4 ${isUp ? "bg-[#5fffd1]" : "bg-amber-200"}`}>
             <p className="text-xs font-semibold text-[#667871]">予測反映額</p>
-            <p className={`mt-2 font-display text-xl font-semibold tracking-tight sm:mt-3 sm:text-3xl ${isUp ? "text-[#08734e]" : "text-rose-700"}`}>
+            <p className={`mt-2 font-display text-xl font-semibold tracking-tight sm:mt-3 sm:text-3xl ${isUp ? "text-[#08734e]" : "text-amber-700"}`}>
               <span className="mr-1">{isUp ? "↑" : "↓"}</span>{isUp ? "+" : ""}{yen.format(impact)}円
             </p>
             <p className="mt-1 text-[11px] text-[#7b8c85]">騰落率 {changeRate >= 0 ? "+" : ""}{changeRate.toFixed(2)}%</p>
