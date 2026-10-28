@@ -68,9 +68,9 @@ export default async function Home() {
                   <div className="mt-2 sm:hidden"><AutoRefresh /></div>
                 </div>
               </div>
-              <div className="mt-5 flex items-end gap-2 sm:mt-9">
+              <div className="forecast-price mt-5 flex items-baseline gap-0 sm:mt-9">
                 <span className="font-display text-[54px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
-                <span className="pb-1.5 text-lg font-black sm:pb-2">円</span>
+                <span className="forecast-currency">円</span>
               </div>
               <div className="mt-5 flex flex-wrap items-center gap-3 border-t-2 border-black/25 pt-4 sm:mt-7 sm:pt-5">
                 <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-emerald-300" : "bg-amber-300"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
