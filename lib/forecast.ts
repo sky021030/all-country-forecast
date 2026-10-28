@@ -47,7 +47,7 @@ const fallbackRows: FundRow[] = [
 async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url, {
     headers: { Accept: "application/json", "User-Agent": "all-country-forecast/1.0" },
-    next: { revalidate: 900 },
+    next: { revalidate: 60 },
   });
   if (!response.ok) throw new Error(`Data source returned ${response.status}`);
   return response.json() as Promise<T>;
