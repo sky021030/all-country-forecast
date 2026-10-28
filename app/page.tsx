@@ -61,6 +61,7 @@ export default async function Home() {
                 <div className="text-right">
                   <span className="paper-label inline-block bg-[#f4ede3] px-3 py-1 text-[11px] font-black">{data.forecastDate} 予測</span>
                   <p className="mt-2 text-[10px] font-bold text-black/55">データ取得 {data.updatedAt}</p>
+                  <div className="mt-2 sm:hidden"><AutoRefresh /></div>
                 </div>
               </div>
               <div className="mt-5 flex items-end gap-2 sm:mt-9">
