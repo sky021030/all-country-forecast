@@ -58,7 +58,10 @@ export default async function Home() {
                   <p className="text-sm font-black">今日の予測基準価額</p>
                   <p className="mt-1 text-xs text-black/60">1万口あたり</p>
                 </div>
-                <span className="paper-label bg-[#f4ede3] px-3 py-1 text-[11px] font-black">{data.forecastDate} 予測</span>
+                <div className="text-right">
+                  <span className="paper-label inline-block bg-[#f4ede3] px-3 py-1 text-[11px] font-black">{data.forecastDate} 予測</span>
+                  <p className="mt-2 text-[10px] font-bold text-black/55">データ取得 {data.updatedAt}</p>
+                </div>
               </div>
               <div className="mt-5 flex items-end gap-2 sm:mt-9">
                 <span className="font-display text-[54px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
