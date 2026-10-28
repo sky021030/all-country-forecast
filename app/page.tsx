@@ -55,7 +55,7 @@ export default async function Home() {
             <div className="relative">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm font-black">今日の予測基準価額</p>
+                  <p className="text-sm font-black">{data.forecastTitle}</p>
                   <p className="mt-1 text-xs text-black/60">1万口あたり</p>
                 </div>
                 <div className="text-right">
@@ -77,6 +77,7 @@ export default async function Home() {
                   <span className="text-[10px] font-bold">{data.usdJpyChange >= 0 ? "↑" : "↓"}{Math.abs(data.usdJpyChange).toFixed(2)}</span>
                 </span>
               </div>
+              <p className="mt-3 text-[10px] font-black text-black/60 sm:text-xs">{data.cutoffStatus}</p>
             </div>
           </div>
 
@@ -99,6 +100,36 @@ export default async function Home() {
             </div>
           </div>
           <div className="mt-4"><ForecastChart data={data.points} /></div>
+        </section>
+
+        <section className="editorial-card mt-6 overflow-hidden">
+          <div className="flex flex-col gap-2 border-b-2 border-black/15 bg-[#ffdf55] p-5 sm:flex-row sm:items-end sm:justify-between sm:px-7">
+            <div>
+              <p className="text-xs font-black tracking-[0.12em] text-[#6b5310]">DAILY RECORD</p>
+              <h2 className="mt-1 text-xl font-black">日ごとの騰落率</h2>
+            </div>
+            <p className="text-[11px] font-bold text-black/55">公式基準価額から算出</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[520px] text-left text-sm">
+              <thead className="border-b-2 border-black/10 bg-white/50 text-xs text-black/55">
+                <tr><th className="px-5 py-3 sm:px-7">日付</th><th className="px-4 py-3 text-right">基準価額</th><th className="px-4 py-3 text-right">騰落額</th><th className="px-5 py-3 text-right sm:px-7">騰落率</th></tr>
+              </thead>
+              <tbody>
+                {data.dailyChanges.map((item) => {
+                  const up = item.amount >= 0;
+                  return (
+                    <tr key={item.date} className="border-b border-black/10 last:border-0">
+                      <td className="px-5 py-3 font-black sm:px-7">{item.date}</td>
+                      <td className="px-4 py-3 text-right font-bold">{yen.format(item.value)}円</td>
+                      <td className={`px-4 py-3 text-right font-black ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}>{up ? "↑ +" : "↓ "}{yen.format(item.amount)}円</td>
+                      <td className={`px-5 py-3 text-right font-black sm:px-7 ${up ? "text-[#087a54]" : "text-[#c43d5c]"}`}>{up ? "+" : ""}{item.rate.toFixed(2)}%</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section className="mt-5 grid gap-4 sm:grid-cols-3">
