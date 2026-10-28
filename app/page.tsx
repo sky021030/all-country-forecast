@@ -1,6 +1,7 @@
 import { ForecastChart } from "@/components/forecast-chart";
 import { AssetSimulator } from "@/components/asset-simulator";
 import { AutoRefresh } from "@/components/auto-refresh";
+import { VirtualMotion } from "@/components/virtual-motion";
 import { ArrowUpRightIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
 
@@ -12,6 +13,7 @@ export default async function Home() {
 
   return (
     <main className="curiosity-world min-h-screen overflow-hidden text-[#171717]">
+      <VirtualMotion />
       <div className="cosmic-scene" aria-hidden="true">
         <span className="pixel-star star-one" /><span className="pixel-star star-two" /><span className="pixel-star star-three" /><span className="pixel-star star-four" />
         <span className="pixel-planet planet-one"><i /></span><span className="pixel-planet planet-two"><i /></span>
