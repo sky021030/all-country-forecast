@@ -17,7 +17,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-noto-sans-jp), system-ui, sans-serif;
-  background: #f4f7f4;
+  background: #8dcbe3;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -33,10 +33,10 @@ body {
 .voxel-world {
   position: relative;
   background:
-    linear-gradient(rgba(255,255,255,.72), rgba(255,255,255,.72)),
-    repeating-linear-gradient(0deg, transparent 0 31px, rgba(39, 91, 66, .06) 31px 32px),
-    repeating-linear-gradient(90deg, transparent 0 31px, rgba(39, 91, 66, .06) 31px 32px),
-    linear-gradient(#bfe3ee 0 38%, #d9edc7 38% 100%);
+    linear-gradient(rgba(230,246,235,.88), rgba(230,246,235,.88)),
+    repeating-linear-gradient(0deg, transparent 0 31px, rgba(32, 70, 42, .12) 31px 32px),
+    repeating-linear-gradient(90deg, transparent 0 31px, rgba(32, 70, 42, .12) 31px 32px),
+    linear-gradient(#84c8e3 0 32%, #6fa956 32% 100%);
 }
 
 .voxel-sky {
@@ -45,7 +45,7 @@ body {
   inset: 74px 0 auto;
   height: 430px;
   overflow: hidden;
-  opacity: .72;
+  opacity: 1;
 }
 
 .voxel-sun {
@@ -66,6 +66,41 @@ body {
   box-shadow: 22px -18px 0 rgba(255,255,255,.85), 44px 0 0 rgba(255,255,255,.85);
 }
 
+.voxel-mountain {
+  position: absolute;
+  bottom: 0;
+  width: 260px;
+  height: 190px;
+  background: #78966c;
+  clip-path: polygon(0 100%,0 72%,16% 72%,16% 55%,32% 55%,32% 38%,48% 38%,48% 20%,64% 20%,64% 48%,80% 48%,80% 69%,100% 69%,100% 100%);
+  box-shadow: inset 0 -42px 0 #587d4e;
+}
+.voxel-mountain-one { left: 2%; }
+.voxel-mountain-two { right: 3%; transform: scale(.78); transform-origin: bottom right; }
+
+.voxel-tree {
+  position: absolute;
+  bottom: 0;
+  width: 28px;
+  height: 95px;
+  background: #62442f;
+  box-shadow: inset -7px 0 #4d3525;
+}
+.voxel-tree::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: -38px;
+  width: 84px;
+  height: 70px;
+  background: #397345;
+  border: 5px solid #285638;
+  box-shadow: inset -14px -14px #2f633b;
+}
+.voxel-tree-one { left: 21%; transform: scale(.7); transform-origin: bottom; }
+.voxel-tree-two { right: 19%; transform: scale(.9); transform-origin: bottom; }
+.voxel-tree-three { right: 9%; transform: scale(.58); transform-origin: bottom; }
+
 .voxel-cloud-one { left: 6%; top: 70px; }
 .voxel-cloud-two { right: 26%; top: 125px; transform: scale(.72); }
 
@@ -84,7 +119,9 @@ body {
 }
 
 .voxel-header {
-  box-shadow: 0 5px 0 rgba(80, 112, 78, .18);
+  border-color: #243d2b;
+  background: #d9e8ca;
+  box-shadow: 0 7px 0 #728a5e;
 }
 
 .voxel-logo {
@@ -93,19 +130,37 @@ body {
 }
 
 .voxel-hero {
-  border: 3px solid #0d2d25;
-  border-radius: 8px;
-  box-shadow: 8px 8px 0 #78a96f, 12px 12px 0 rgba(80, 64, 42, .2);
+  border: 4px solid #243321;
+  border-radius: 0;
+  box-shadow: 9px 9px 0 #496e39, 13px 13px 0 #4e3828;
+}
+
+.grass-block {
+  background:
+    linear-gradient(#66a947 0 18px, #3e7c38 18px 25px, transparent 25px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 24px, rgba(0,0,0,.045) 24px 48px),
+    #65452f;
 }
 
 .voxel-panel {
-  border-radius: 6px;
-  box-shadow: 7px 7px 0 rgba(79, 119, 83, .25);
+  border: 4px solid #334a37 !important;
+  border-radius: 0;
+  background-color: rgba(242,247,231,.96) !important;
+  background-image: linear-gradient(rgba(48,83,55,.055) 1px, transparent 1px), linear-gradient(90deg,rgba(48,83,55,.055) 1px,transparent 1px);
+  background-size: 24px 24px;
+  box-shadow: 8px 8px 0 #789162, 12px 12px 0 rgba(71,54,39,.22);
 }
 
 .voxel-note {
-  border-radius: 4px;
-  box-shadow: 5px 5px 0 rgba(109, 124, 75, .2);
+  border: 4px solid #59462d !important;
+  border-radius: 0;
+  background: #f2d990 !important;
+  box-shadow: 6px 6px 0 #9a7640;
+}
+
+.block-chip, .block-badge {
+  border-radius: 0;
+  box-shadow: 3px 3px 0 rgba(26,48,31,.55);
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -118,9 +173,13 @@ input[type="range"]::-webkit-slider-thumb {
   box-shadow: 3px 3px 0 rgba(16, 61, 48, .24);
 }
 
+input[type="range"] { border-radius: 0 !important; }
+
 @media (max-width: 640px) {
   .voxel-sun { right: 5%; width: 38px; height: 38px; }
   .voxel-cloud-two { display: none; }
-  .voxel-panel { box-shadow: 5px 5px 0 rgba(79, 119, 83, .23); }
-  .voxel-hero { box-shadow: 6px 6px 0 #78a96f; }
+  .voxel-mountain { opacity: .62; }
+  .voxel-tree-one { display: none; }
+  .voxel-panel { box-shadow: 5px 5px 0 #789162, 8px 8px 0 rgba(71,54,39,.2); }
+  .voxel-hero { box-shadow: 6px 6px 0 #496e39, 9px 9px 0 #4e3828; }
 }

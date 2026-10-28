@@ -11,7 +11,11 @@ export default async function Home() {
 
   return (
     <main className="voxel-world min-h-screen overflow-hidden text-[#18302b]">
-      <div className="voxel-sky" aria-hidden="true"><span className="voxel-sun" /><span className="voxel-cloud voxel-cloud-one" /><span className="voxel-cloud voxel-cloud-two" /></div>
+      <div className="voxel-sky" aria-hidden="true">
+        <span className="voxel-sun" /><span className="voxel-cloud voxel-cloud-one" /><span className="voxel-cloud voxel-cloud-two" />
+        <span className="voxel-mountain voxel-mountain-one" /><span className="voxel-mountain voxel-mountain-two" />
+        <span className="voxel-tree voxel-tree-one" /><span className="voxel-tree voxel-tree-two" /><span className="voxel-tree voxel-tree-three" />
+      </div>
       <div className="voxel-ground" aria-hidden="true" />
 
       <header className="voxel-header relative border-b-4 border-[#315f46] bg-[#f8faf8]/90">
@@ -23,7 +27,7 @@ export default async function Home() {
               <p className="text-[10px] font-bold tracking-[0.2em] text-[#75857f]">WORLD 01 · ALL COUNTRY</p>
             </div>
           </div>
-          <span className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${data.isLive ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-amber-200 bg-amber-50 text-amber-800"}`}>
+          <span className={`block-badge border-2 px-3 py-1.5 text-xs font-black ${data.isLive ? "border-[#174d31] bg-[#75bd59] text-[#102c1d]" : "border-amber-700 bg-amber-300 text-amber-900"}`}>
             <span className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${data.isLive ? "bg-emerald-500" : "bg-amber-500"}`} />
             {data.isLive ? "LIVE DATA" : "データ取得確認中"}
           </span>
@@ -43,7 +47,7 @@ export default async function Home() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="voxel-hero relative overflow-hidden bg-[#163f35] p-6 text-white sm:p-9">
+          <div className="voxel-hero grass-block relative overflow-hidden bg-[#65452f] p-6 text-white sm:p-9">
             <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[44px] border-white/[0.035]" />
             <div className="absolute bottom-0 right-0 h-32 w-40 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1.5px)] [background-size:12px_12px]" />
             <div className="relative">
@@ -52,14 +56,14 @@ export default async function Home() {
                   <p className="text-sm font-medium text-[#b9d6cd]">今日の予測基準価額</p>
                   <p className="mt-1 text-xs text-[#7fa99b]">1万口あたり</p>
                 </div>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-medium text-[#d4e7e0]">{data.forecastDate} 予測</span>
+                <span className="block-chip bg-black/20 px-3 py-1 text-[11px] font-bold text-[#e8f7e0]">{data.forecastDate} 予測</span>
               </div>
               <div className="mt-7 flex items-end gap-2 sm:mt-9">
                 <span className="font-display text-[58px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
                 <span className="pb-1.5 text-lg font-medium text-[#c5ddd5] sm:pb-2">円</span>
               </div>
               <div className="mt-7 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
-                <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-bold ${isUp ? "bg-[#dff5e9] text-[#096845]" : "bg-rose-100 text-rose-700"}`}><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
+                <span className={`block-chip inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-[#9dda72] text-[#173d23]" : "bg-rose-200 text-rose-800"}`}><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
                 <span className="font-display text-xl font-semibold text-[#ecf7f3]">{isUp ? "+" : ""}{data.changeRate.toFixed(2)}%</span>
                 <span className="text-xs text-[#8fb4a8]">前回比</span>
               </div>
@@ -81,8 +85,8 @@ export default async function Home() {
               <h2 className="mt-1 text-xl font-bold text-[#203b34]">基準価額の推移</h2>
             </div>
             <div className="flex items-center gap-4 text-xs text-[#71807b]">
-              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#13875f]" />公表値</span>
-              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#f4aa42] ring-2 ring-amber-100" />今日の予測</span>
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 bg-[#13875f]" />公表値</span>
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 bg-[#f4aa42] ring-2 ring-amber-100" />今日の予測</span>
             </div>
           </div>
           <div className="mt-4"><ForecastChart data={data.points} /></div>
@@ -99,7 +103,7 @@ export default async function Home() {
           <p><strong className="font-bold text-[#254c40]">実データを使った参考予測です。</strong> 基準価額は三菱UFJアセットマネジメント、世界株と為替はYahoo Financeの公開市場データを参照しています。予測値はACWI ETFとドル円を使った概算で、将来の基準価額を保証するものではありません。</p>
         </aside>
 
-        <footer className="relative mt-10 flex flex-col gap-2 border-t-4 border-[#5d7f55] bg-[#eef4e8]/80 px-4 pb-4 pt-6 text-xs font-medium text-[#61736b] sm:flex-row sm:items-center sm:justify-between">
+        <footer className="relative mt-10 flex flex-col gap-2 border-4 border-[#243a2b] bg-[#d8e7ca] px-4 py-4 text-xs font-bold text-[#415c4a] shadow-[5px_5px_0_#76905f] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 オルカン予報</p>
           <p>データ参照：三菱UFJアセットマネジメント / Yahoo Finance · 投資判断はご自身の責任で行ってください</p>
         </footer>
@@ -123,7 +127,7 @@ function MetricCard({ label, value, note, accent = false }: { label: string; val
     <div className="voxel-panel border-2 border-[#b8cbbb] bg-white/90 p-5 sm:p-6">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs font-semibold text-[#697b75] sm:text-sm">{label}</p>
-        <span className={`h-2.5 w-2.5 rounded-full ${accent ? "bg-[#f4aa42]" : "bg-[#49ad89]"}`} />
+        <span className={`h-3 w-3 border border-[#263e32] ${accent ? "bg-[#f4aa42]" : "bg-[#72bd58]"}`} />
       </div>
       <p className="mt-4 font-display text-2xl font-semibold tracking-tight text-[#18352e] sm:text-3xl">{value}</p>
       <p className={`mt-2 text-[11px] font-medium sm:text-xs ${accent ? "text-[#b27626]" : "text-[#81908b]"}`}>{note}</p>
