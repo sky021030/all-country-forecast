@@ -219,3 +219,47 @@ input[type="range"] { accent-color:#30dfc2; } input[type="range"]::-webkit-slide
 
 .forecast-price { white-space:nowrap; }
 .forecast-currency { margin-left:.08em;color:#bff7ff;font-size:.28em;font-weight:900;letter-spacing:.04em;transform:translateY(-.16em);text-shadow:0 0 10px rgba(86,235,255,.38); }
+
+/* Orkan-kun interaction: a light passive coin trail and a finite tap burst. */
+.flying-orkan .orkan-kun { margin:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer;pointer-events:auto;touch-action:manipulation; }
+.flying-orkan .orkan-kun:focus-visible { outline:2px solid #8ff8ff;outline-offset:9px;border-radius:50%; }
+.orkan-speech { position:absolute;left:52px;top:-22px;width:max-content;padding:5px 9px;border:1px solid rgba(123,242,255,.78);border-radius:999px;background:rgba(1,18,34,.9);color:#bdfaff;font-size:9px;font-weight:900;letter-spacing:.04em;opacity:.58;transform:translateY(3px);box-shadow:0 0 15px rgba(0,220,255,.22);transition:opacity .18s ease,transform .18s ease; }
+.orkan-kun:hover .orkan-speech,.orkan-kun:focus-visible .orkan-speech,.orkan-kun.is-making-money .orkan-speech { opacity:1;transform:translateY(0); }
+.orkan-kun.is-making-money .orkan-head { filter:brightness(1.22); }
+.orkan-kun.is-making-money .orkan-head b { width:20px;height:12px;border:3px solid #d9ffff;border-top:0;background:rgba(1,50,70,.55); }
+.orkan-money-trail,.orkan-coin-burst { position:absolute;inset:0;z-index:6;pointer-events:none; }
+.orkan-money-trail i,.orkan-coin-burst i { position:absolute;display:grid;width:18px;height:18px;place-items:center;border:1px solid #fff0a1;border-radius:50%;background:#d5a91d;color:#fff8bf;font-size:8px;font-style:normal;font-weight:1000;box-shadow:0 0 10px rgba(255,224,78,.7); }
+.orkan-money-trail i { left:7px;top:54px;opacity:0;animation:orkan-loose-coin 2.3s linear infinite; }
+.orkan-money-trail i:nth-child(2){animation-delay:-.46s}.orkan-money-trail i:nth-child(3){animation-delay:-.92s}.orkan-money-trail i:nth-child(4){animation-delay:-1.38s}.orkan-money-trail i:nth-child(5){animation-delay:-1.84s}
+.orkan-coin-burst i { left:38px;top:42px;animation:orkan-coin-burst .95s cubic-bezier(.2,.7,.2,1) both;--coin-x:0px;--coin-y:-80px; }
+.orkan-coin-burst i:nth-child(1){--coin-x:-70px;--coin-y:-55px}.orkan-coin-burst i:nth-child(2){--coin-x:-42px;--coin-y:-92px}.orkan-coin-burst i:nth-child(3){--coin-x:-10px;--coin-y:-112px}.orkan-coin-burst i:nth-child(4){--coin-x:28px;--coin-y:-104px}.orkan-coin-burst i:nth-child(5){--coin-x:66px;--coin-y:-78px}.orkan-coin-burst i:nth-child(6){--coin-x:88px;--coin-y:-35px}.orkan-coin-burst i:nth-child(7){--coin-x:82px;--coin-y:22px}.orkan-coin-burst i:nth-child(8){--coin-x:48px;--coin-y:55px}.orkan-coin-burst i:nth-child(9){--coin-x:5px;--coin-y:64px}.orkan-coin-burst i:nth-child(10){--coin-x:-38px;--coin-y:52px}.orkan-coin-burst i:nth-child(11){--coin-x:-72px;--coin-y:22px}.orkan-coin-burst i:nth-child(12){--coin-x:-90px;--coin-y:-18px}
+@keyframes orkan-loose-coin { 0%{transform:translate(0,0) rotate(0);opacity:0}12%{opacity:.95}100%{transform:translate(-95px,45px) rotate(-360deg);opacity:0} }
+@keyframes orkan-coin-burst { 0%{transform:translate(0,0) scale(.55) rotate(0);opacity:1}75%{opacity:1}100%{transform:translate(var(--coin-x),var(--coin-y)) scale(1.12) rotate(540deg);opacity:0} }
+
+/* Mobile low-power mode: keep the mascot, stop costly ambient motion and blur. */
+@media (max-width:640px) {
+  .curiosity-world::before,.voxel-ground,.virtual-motion-layer::after,.virtual-motion-layer i,.pixel-star,.editorial-hero::before { animation:none!important; }
+  .virtual-motion-layer i { display:none; }
+  .virtual-motion-layer::after { opacity:.18; }
+  .cosmic-scene { transform:none!important;transition:none!important; }
+  .editorial-hero,.editorial-card,.voxel-panel,.editorial-note,.editorial-footer,.mascot-stage { backdrop-filter:none!important; }
+  .flying-orkan .orkan-kun { animation-duration:28s; }
+  .orkan-money-trail i { animation-duration:3.2s; }
+  .orkan-speech { left:44px;top:-16px;font-size:8px; }
+}
+@media (hover:none) { .editorial-card:hover,.voxel-panel:hover,.editorial-hero:hover { transform:none; } }
+@media (prefers-reduced-motion:reduce) { .orkan-money-trail i,.orkan-coin-burst i { animation:none!important; }.orkan-money-trail{display:none} }
+
+/* Live forecast pulse gauge */
+.forecast-energy-gauge { --gauge-color:#65f3dc;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-top:18px;color:#aeeff7;font-size:8px;font-weight:900;letter-spacing:.14em; }
+.forecast-energy-gauge.is-down { --gauge-color:#9b8cff; }
+.gauge-label,.gauge-value { white-space:nowrap;text-shadow:0 0 9px color-mix(in srgb,var(--gauge-color) 55%,transparent); }
+.gauge-track { position:relative;height:7px;overflow:hidden;border:1px solid rgba(117,237,255,.38);border-radius:99px;background:rgba(0,8,20,.66);box-shadow:inset 0 0 9px rgba(0,0,0,.6),0 0 10px rgba(0,217,255,.08); }
+.gauge-track::before { content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 9%,rgba(175,248,255,.2) 9% 9.5%); }
+.gauge-track i { position:absolute;inset:0 auto 0 0;width:var(--gauge-level);border-radius:99px;background:linear-gradient(90deg,color-mix(in srgb,var(--gauge-color) 35%,transparent),var(--gauge-color));box-shadow:0 0 13px var(--gauge-color);transition:width .6s ease; }
+.gauge-track i::after { content:"";position:absolute;right:-2px;top:50%;width:9px;height:13px;border-radius:3px;background:#eaffff;box-shadow:0 0 10px 3px var(--gauge-color);transform:translateY(-50%);animation:gauge-node-pulse 1.1s ease-in-out infinite alternate; }
+.gauge-track b { position:absolute;top:-1px;bottom:-1px;width:46px;background:linear-gradient(90deg,transparent,rgba(235,254,255,.9),transparent);filter:blur(1px);animation:gauge-scan 2.4s linear infinite; }
+@keyframes gauge-scan { from{left:-48px}to{left:100%} }
+@keyframes gauge-node-pulse { to{opacity:.45;transform:translateY(-50%) scale(.72)} }
+@media(max-width:640px){.forecast-energy-gauge{grid-template-columns:1fr auto;margin-top:16px}.gauge-label{grid-column:1/-1;font-size:7px}.gauge-track{height:6px}.gauge-value{font-size:7px}}
+@media(prefers-reduced-motion:reduce){.gauge-track b,.gauge-track i::after{animation:none!important}}
