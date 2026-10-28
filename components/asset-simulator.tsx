@@ -44,7 +44,7 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
   }
 
   return (
-    <section className="voxel-panel mt-6 overflow-hidden p-5 sm:p-7 lg:p-8">
+    <section className="voxel-panel mt-0 overflow-hidden p-4 sm:mt-6 sm:p-7 lg:p-8">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-xs font-black tracking-[0.12em] text-[#286a55]">MY ASSET</p>
@@ -56,8 +56,8 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
         </button>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-        <div>
+      <div className="mt-4 grid gap-5 sm:mt-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <div className="order-2 lg:order-1">
           <div className="flex items-end gap-2">
             <label htmlFor="deposit-amount" className="text-sm font-semibold text-[#526760]">預り金</label>
             <div className="ml-auto flex items-center gap-2">
@@ -104,17 +104,17 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
           <p className="mt-2 text-[10px] text-[#91a09b]">この端末のブラウザに保存されます</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="order-1 grid grid-cols-2 gap-3 lg:order-2">
           <div className={`border-4 border-black p-4 shadow-[6px_6px_0_#ff4f9a] ${isUp ? "bg-[#5fffd1]" : "bg-rose-200"}`}>
             <p className="text-xs font-semibold text-[#667871]">予測反映額</p>
-            <p className={`mt-3 font-display text-2xl font-semibold tracking-tight sm:text-3xl ${isUp ? "text-[#08734e]" : "text-rose-700"}`}>
+            <p className={`mt-2 font-display text-xl font-semibold tracking-tight sm:mt-3 sm:text-3xl ${isUp ? "text-[#08734e]" : "text-rose-700"}`}>
               <span className="mr-1">{isUp ? "↑" : "↓"}</span>{isUp ? "+" : ""}{yen.format(impact)}円
             </p>
             <p className="mt-1 text-[11px] text-[#7b8c85]">騰落率 {changeRate >= 0 ? "+" : ""}{changeRate.toFixed(2)}%</p>
           </div>
           <div className="border-4 border-black bg-[#ffef55] p-4 shadow-[6px_6px_0_#54d9ff]">
             <p className="text-xs font-semibold text-[#667871]">反映後の概算</p>
-            <p className="mt-3 font-display text-2xl font-semibold tracking-tight text-[#18352e] sm:text-3xl">{yen.format(projected)}円</p>
+            <p className="mt-2 font-display text-xl font-semibold tracking-tight text-[#18352e] sm:mt-3 sm:text-3xl">{yen.format(projected)}円</p>
             <p className="mt-1 text-[11px] text-[#7b8c85]">預り金 + 予測反映額</p>
           </div>
         </div>
