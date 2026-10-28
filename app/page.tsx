@@ -37,7 +37,7 @@ export default async function Home() {
       </header>
 
       <div className="relative mx-auto max-w-6xl px-5 pb-12 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-16">
-        <section className="mb-5 flex flex-col gap-3 sm:mb-7 sm:flex-row sm:items-end sm:justify-between">
+        <section className="mb-5 hidden flex-col gap-3 sm:mb-7 sm:flex sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-tag mb-3 w-fit border-2 border-black bg-[#c7a87e] px-3 py-1 text-xs font-black tracking-[0.13em]">TODAY&apos;S OUTLOOK</p>
             <h1 className="max-w-2xl text-xl font-black leading-snug sm:text-3xl">{data.fundName}</h1>
@@ -49,7 +49,7 @@ export default async function Home() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="editorial-hero relative overflow-hidden bg-[#7696f5] p-6 text-black sm:p-9">
+          <div className="editorial-hero order-1 relative overflow-hidden bg-[#7696f5] p-5 text-black sm:p-9">
             <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[44px] border-white/[0.035]" />
             <div className="absolute bottom-0 right-0 h-32 w-40 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1.5px)] [background-size:12px_12px]" />
             <div className="relative">
@@ -60,11 +60,11 @@ export default async function Home() {
                 </div>
                 <span className="paper-label bg-[#f4ede3] px-3 py-1 text-[11px] font-black">{data.forecastDate} 予測</span>
               </div>
-              <div className="mt-7 flex items-end gap-2 sm:mt-9">
-                <span className="font-display text-[58px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
+              <div className="mt-5 flex items-end gap-2 sm:mt-9">
+                <span className="font-display text-[54px] font-semibold leading-none tracking-[-0.045em] sm:text-[78px]">{yen.format(data.forecastValue)}</span>
                 <span className="pb-1.5 text-lg font-black sm:pb-2">円</span>
               </div>
-              <div className="mt-7 flex flex-wrap items-center gap-3 border-t-2 border-black/25 pt-5">
+              <div className="mt-5 flex flex-wrap items-center gap-3 border-t-2 border-black/25 pt-4 sm:mt-7 sm:pt-5">
                 <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-[#ffdf55]" : "bg-rose-200"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
                 <span className="font-display text-xl font-black">{isUp ? "+" : ""}{data.changeRate.toFixed(2)}%</span>
                 <span className="text-xs text-black/60">前回比</span>
@@ -72,13 +72,12 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">
+          <div className="order-3 grid grid-cols-2 gap-4 lg:order-2 lg:grid-cols-1">
             <MetricCard label="前回の基準価額" value={`${yen.format(data.previousValue)}円`} note={`${data.previousDate} 公式公表値`} />
             <MetricCard label="ドル円" value={`${data.usdJpy.toFixed(2)}円`} note={`直近比 ${data.usdJpyChange >= 0 ? "+" : ""}${data.usdJpyChange.toFixed(2)}円`} accent />
           </div>
+          <div className="order-2 lg:order-3 lg:col-span-2"><AssetSimulator changeRate={data.changeRate} /></div>
         </section>
-
-        <AssetSimulator changeRate={data.changeRate} />
 
         <section className="editorial-card chart-paper mt-6 p-5 sm:p-7 lg:p-8">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
