@@ -31,6 +31,12 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
     setSaved(false);
   }
 
+  function typeAmount(value: string) {
+    const parsed = Number(value);
+    setAmount(Number.isFinite(parsed) ? Math.min(MAX_AMOUNT, Math.max(0, parsed)) : 0);
+    setSaved(false);
+  }
+
   function saveAmount() {
     window.localStorage.setItem(STORAGE_KEY, String(amount));
     setSavedAmount(amount);
@@ -38,16 +44,16 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
   }
 
   return (
-    <section className="voxel-panel mt-6 overflow-hidden border-2 border-[#b8cbbb] bg-white/90 p-5 sm:p-7 lg:p-8">
+    <section className="voxel-panel mt-6 overflow-hidden p-5 sm:p-7 lg:p-8">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-semibold tracking-[0.12em] text-[#14815d]">MY ASSET</p>
-          <h2 className="mt-1 text-xl font-bold text-[#203b34]">預り金への予測反映</h2>
+          <p className="text-xs font-black tracking-[0.12em] text-[#286a55]">MY ASSET</p>
+          <h2 className="mt-1 text-xl font-black">預り金への予測反映</h2>
           <p className="mt-1 text-xs leading-relaxed text-[#788781]">現在の予測騰落率を保有額へ当てはめた概算です</p>
         </div>
-        <span className="block-chip w-fit border-2 border-[#44604a] bg-[#cfe4bc] px-3 py-1.5 text-[11px] font-bold text-[#35543e]">
-          保存値 {yen.format(savedAmount)}円
-        </span>
+        <button type="button" onClick={() => updateAmount(savedAmount)} className="paper-label w-fit bg-[#25c98d] px-3 py-1.5 text-[11px] font-black text-black transition hover:-translate-y-0.5" title="保存した金額に戻す">
+          保存値に戻す ↩ {yen.format(savedAmount)}円
+        </button>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
@@ -62,8 +68,9 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
                 max={MAX_AMOUNT}
                 step={100000}
                 value={amount}
-                onChange={(event) => updateAmount(Number(event.target.value))}
-                className="w-36 border-3 border-[#3c5542] bg-[#eef5e5] px-3 py-2 text-right font-display text-lg font-semibold text-[#18352e] outline-none shadow-[3px_3px_0_#87a174] transition focus:bg-white sm:w-44"
+                onChange={(event) => typeAmount(event.target.value)}
+                onBlur={() => setAmount(Math.min(MAX_AMOUNT, Math.max(0, Math.round(amount))))}
+                className="w-36 border-2 border-black bg-white px-3 py-2 text-right font-display text-lg font-black outline-none shadow-[3px_3px_0_#171717] transition focus:bg-[#fffbea] sm:w-44"
                 aria-label="預り金額"
               />
               <span className="text-sm font-semibold text-[#667871]">円</span>
@@ -90,7 +97,7 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
           <button
             type="button"
             onClick={saveAmount}
-            className="mt-5 inline-flex min-h-10 items-center justify-center border-3 border-[#102c1d] bg-[#4e8e3e] px-5 text-sm font-black text-white shadow-[4px_4px_0_#274e2b] transition hover:-translate-y-0.5 hover:bg-[#61a84c] focus:outline-none"
+            className="mt-5 inline-flex min-h-10 items-center justify-center border-2 border-black bg-[#7696f5] px-5 text-sm font-black text-black shadow-[4px_4px_0_#171717] transition hover:-translate-y-0.5 hover:bg-[#91a9f7] focus:outline-none"
           >
             {saved ? "保存しました" : "この金額を保存"}
           </button>
@@ -98,14 +105,14 @@ export function AssetSimulator({ changeRate }: { changeRate: number }) {
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div className={`border-3 border-[#38503d] p-4 shadow-[4px_4px_0_#8da176] ${isUp ? "bg-[#d9efc9]" : "bg-rose-100"}`}>
+          <div className={`border-4 border-black p-4 shadow-[6px_6px_0_#ff4f9a] ${isUp ? "bg-[#5fffd1]" : "bg-rose-200"}`}>
             <p className="text-xs font-semibold text-[#667871]">予測反映額</p>
             <p className={`mt-3 font-display text-2xl font-semibold tracking-tight sm:text-3xl ${isUp ? "text-[#08734e]" : "text-rose-700"}`}>
               {isUp ? "+" : ""}{yen.format(impact)}円
             </p>
             <p className="mt-1 text-[11px] text-[#7b8c85]">騰落率 {changeRate >= 0 ? "+" : ""}{changeRate.toFixed(2)}%</p>
           </div>
-          <div className="border-3 border-[#38503d] bg-[#e5eadb] p-4 shadow-[4px_4px_0_#8da176]">
+          <div className="border-4 border-black bg-[#ffef55] p-4 shadow-[6px_6px_0_#54d9ff]">
             <p className="text-xs font-semibold text-[#667871]">反映後の概算</p>
             <p className="mt-3 font-display text-2xl font-semibold tracking-tight text-[#18352e] sm:text-3xl">{yen.format(projected)}円</p>
             <p className="mt-1 text-[11px] text-[#7b8c85]">預り金 + 予測反映額</p>
