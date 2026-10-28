@@ -68,6 +68,10 @@ export default async function Home() {
                 <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-[#ffdf55]" : "bg-rose-200"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
                 <span className="font-display text-xl font-black">{isUp ? "+" : ""}{data.changeRate.toFixed(2)}%</span>
                 <span className="text-xs text-black/60">前回比</span>
+                <span className="paper-label ml-auto inline-flex items-center gap-2 bg-[#54d9ff] px-3 py-1.5 text-sm font-black sm:hidden">
+                  <span className="text-xs">ドル円</span>{data.usdJpy.toFixed(2)}円
+                  <span className="text-[10px] font-bold">{data.usdJpyChange >= 0 ? "↑" : "↓"}{Math.abs(data.usdJpyChange).toFixed(2)}</span>
+                </span>
               </div>
             </div>
           </div>
