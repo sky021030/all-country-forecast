@@ -30,6 +30,13 @@ body { margin: 0; font-family: var(--font-noto-sans-jp), system-ui, sans-serif; 
 .pixel-rocket { position:absolute;left:13%;top:215px;width:58px;height:100px;border:5px solid #171717;background:#f6f1ff;transform:rotate(35deg);box-shadow:8px 8px 0 rgba(23,17,72,.7); }
 .pixel-rocket::before { content:"";position:absolute;left:8px;top:12px;width:32px;height:32px;border:5px solid #171717;background:#54d9ff; }
 .pixel-rocket::after { content:"";position:absolute;left:7px;bottom:-38px;border-left:20px solid transparent;border-right:20px solid transparent;border-top:42px solid #ff7a22;filter:drop-shadow(0 5px 0 #ffef55); }
+.money-saturn { position:absolute;right:22%;top:390px;width:105px;height:105px;border:5px solid #171717;border-radius:50%;background:#ffef55;box-shadow:9px 9px 0 #ff4f9a;transform:rotate(-12deg);display:grid;place-items:center; }
+.money-saturn::before { content:"";position:absolute;left:-42px;top:28px;width:180px;height:48px;border:7px solid #171717;border-radius:50%;transform:rotate(-10deg);z-index:-1;background:#54d9ff; }
+.money-saturn b { font-size:45px;font-weight:1000; }
+.cash-comet { position:absolute;left:33%;top:490px;width:135px;height:68px;border:5px solid #171717;background:#5fffd1;box-shadow:8px 8px 0 #171717;transform:rotate(-16deg);display:grid;place-items:center; }
+.cash-comet::before,.cash-comet::after { content:"";position:absolute;right:100%;height:12px;background:#ffef55;border:3px solid #171717;border-right:0; }
+.cash-comet::before { width:95px;top:7px; }.cash-comet::after { width:145px;bottom:7px;background:#ff4f9a; }
+.cash-comet b { border:3px solid #171717;padding:7px 12px;background:#f6fff8;font-size:15px; }
 .voxel-ground { display:none; }
 
 .editorial-hero { border:5px solid #171717; box-shadow:12px 13px 0 #ff4f9a; transform:rotate(-.25deg); }
@@ -46,7 +53,8 @@ input[type="range"]::-webkit-slider-thumb { appearance:none;width:26px;height:26
 @media (max-width:640px) {
   .cosmic-scene { height:560px; opacity:.72; }
   .planet-one { right:-90px;transform:scale(.7); }
-  .pixel-orbit,.pixel-rocket,.planet-two { display:none; }
+  .pixel-orbit,.pixel-rocket,.planet-two,.cash-comet { display:none; }
+  .money-saturn { right:-28px;top:330px;transform:scale(.65) rotate(-12deg); }
   .editorial-card,.voxel-panel { box-shadow:5px 5px 0 #171717; }
   .editorial-hero { box-shadow:6px 7px 0 #171717; }
 }

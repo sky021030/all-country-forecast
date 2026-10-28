@@ -1,7 +1,7 @@
 import { ForecastChart } from "@/components/forecast-chart";
 import { AssetSimulator } from "@/components/asset-simulator";
 import { AutoRefresh } from "@/components/auto-refresh";
-import { ArrowUpRightIcon, ClockIcon, GlobeIcon, InfoIcon } from "@/components/icons";
+import { ArrowUpRightIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
 
 const yen = new Intl.NumberFormat("ja-JP");
@@ -16,6 +16,7 @@ export default async function Home() {
         <span className="pixel-star star-one" /><span className="pixel-star star-two" /><span className="pixel-star star-three" /><span className="pixel-star star-four" />
         <span className="pixel-planet planet-one"><i /></span><span className="pixel-planet planet-two"><i /></span>
         <span className="pixel-rocket"><i /></span><span className="pixel-orbit" />
+        <span className="money-saturn"><b>¥</b></span><span className="cash-comet"><b>¥10000</b><i /></span>
       </div>
       <div className="voxel-ground" aria-hidden="true" />
 
@@ -42,8 +43,7 @@ export default async function Home() {
             <h1 className="max-w-2xl text-xl font-black leading-snug sm:text-3xl">{data.fundName}</h1>
           </div>
           <div className="text-right">
-            <p className="flex items-center justify-end gap-1.5 text-xs text-[#6d7d78]"><ClockIcon className="h-4 w-4" />最終更新 {data.updatedAt}</p>
-            <p className={`mt-1 text-[10px] font-medium ${data.isLive ? "text-emerald-600" : "text-amber-700"}`}>{data.statusMessage}</p>
+            <p className={`text-[10px] font-bold ${data.isLive ? "text-[#52ffd0]" : "text-[#ffef55]"}`}>{data.statusMessage}</p>
             <div className="mt-2"><AutoRefresh /></div>
           </div>
         </section>
@@ -65,7 +65,7 @@ export default async function Home() {
                 <span className="pb-1.5 text-lg font-black sm:pb-2">円</span>
               </div>
               <div className="mt-7 flex flex-wrap items-center gap-3 border-t-2 border-black/25 pt-5">
-                <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-[#ffdf55]" : "bg-rose-200"}`}><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
+                <span className={`paper-label inline-flex items-center gap-1 px-3 py-1.5 text-sm font-black ${isUp ? "bg-[#ffdf55]" : "bg-rose-200"}`}><span className="text-xl leading-none">{isUp ? "↑" : "↓"}</span><ArrowUpRightIcon className={`h-4 w-4 ${isUp ? "" : "rotate-90"}`} />{isUp ? "+" : ""}{yen.format(data.changeAmount)}円</span>
                 <span className="font-display text-xl font-black">{isUp ? "+" : ""}{data.changeRate.toFixed(2)}%</span>
                 <span className="text-xs text-black/60">前回比</span>
               </div>
