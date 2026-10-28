@@ -20,7 +20,7 @@ export function ForecastChart({ data }: { data: ForecastPoint[] }) {
           </defs>
           <CartesianGrid vertical={false} stroke="#dbe5e2" strokeDasharray="4 5" />
           <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: "#71827d", fontSize: 12 }} dy={10} />
-          <YAxis domain={[26400, 27800]} ticks={[26400, 26800, 27200, 27600]} axisLine={false} tickLine={false} tick={{ fill: "#8a9894", fontSize: 11 }} tickFormatter={(value) => `${Math.round(value / 1000)}k`} />
+          <YAxis domain={["dataMin - 400", "dataMax + 400"]} axisLine={false} tickLine={false} tick={{ fill: "#8a9894", fontSize: 11 }} tickFormatter={(value) => `${Math.round(value / 1000)}k`} />
           <Tooltip content={<ChartTooltip />} cursor={{ stroke: "#8ab8a7", strokeDasharray: "4 4" }} />
           <Area type="monotone" dataKey="value" stroke="#13875f" strokeWidth={3} fill="url(#forecastGradient)" activeDot={{ r: 5, fill: "#fff", stroke: "#13875f", strokeWidth: 3 }} />
           {forecast && <ReferenceDot x={forecast.date} y={forecast.value} r={6} fill="#f4aa42" stroke="#fff" strokeWidth={3} />}
