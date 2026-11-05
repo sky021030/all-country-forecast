@@ -6,17 +6,19 @@ import { AllCountryKun } from "@/components/all-country-kun";
 import { MarketTicker } from "@/components/market-ticker";
 import { ArrowUpRightIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
+import { getMarketNews } from "@/lib/news";
 import type { CSSProperties } from "react";
 
 const yen = new Intl.NumberFormat("ja-JP");
 
 export default async function Home() {
-  const data = await getForecastData();
+  const [data, news] = await Promise.all([getForecastData(), getMarketNews()]);
   const isUp = data.changeAmount >= 0;
+  const alertLevel = data.changeRate <= -2 ? "critical" : data.changeRate <= -1 ? "caution" : data.changeRate >= 1.5 ? "fever" : "normal";
   const gaugeLevel = Math.min(100, Math.max(8, Math.abs(data.changeRate) / 2 * 100));
 
   return (
-    <main className="curiosity-world min-h-screen overflow-hidden text-[#171717]">
+    <main className={`curiosity-world min-h-screen overflow-hidden text-[#171717] market-state-${alertLevel}`}>
       <VirtualMotion />
       <div className="cosmic-scene" aria-hidden="true">
         <span className="pixel-star star-one" /><span className="pixel-star star-two" /><span className="pixel-star star-three" /><span className="pixel-star star-four" />
@@ -42,7 +44,29 @@ export default async function Home() {
         </div>
       </header>
 
-      <MarketTicker data={data} />
+      <MarketTicker data={data} news={news} />
+
+      {alertLevel !== "normal" && (
+        <section className={`market-alert-banner market-alert-${alertLevel}`} role="status" aria-label={alertLevel === "fever" ? "大幅上昇フィーバー" : "大幅下落アラート"}>
+          <div className="market-alert-inner">
+            <span className="market-alert-icon">{alertLevel === "fever" ? "¥" : "!"}</span>
+            <div>
+              <strong>{alertLevel === "fever" ? "ALL COUNTRY FEVER｜上昇フィーバー" : alertLevel === "critical" ? "MARKET WARNING｜大幅下落を検知" : "MARKET CAUTION｜下落に注意"}</strong>
+              <p>
+                予測騰落率 {data.changeRate.toFixed(2)}%。
+                {alertLevel === "fever"
+                  ? data.marketReturn > 0 && data.fxReturn > 0 ? " 世界株高と円安のダブル追い風です。" : " 強い上昇シグナルを検知しました。"
+                  : data.marketReturn < 0 && data.fxReturn < 0
+                  ? " 世界株安と円高が同時に下押ししています。"
+                  : Math.abs(data.marketReturn) >= Math.abs(data.fxReturn)
+                    ? " 世界株の下落が主な要因です。"
+                    : " 円高による為替影響が主な要因です。"}
+              </p>
+            </div>
+            <span className="market-alert-value">{data.changeRate.toFixed(2)}%</span>
+          </div>
+        </section>
+      )}
 
       <div className="relative mx-auto max-w-6xl px-5 pb-12 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-16">
         <AllCountryKun />
@@ -58,7 +82,7 @@ export default async function Home() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="editorial-hero order-1 relative overflow-hidden bg-[#7696f5] p-5 text-black sm:p-9">
+          <div className={`editorial-hero order-1 relative overflow-hidden bg-[#7696f5] p-5 text-black sm:p-9 ${alertLevel !== "normal" ? "hero-under-alert" : ""}`}>
             <div className="absolute -right-16 -top-20 h-72 w-72 rounded-full border-[44px] border-white/[0.035]" />
             <div className="absolute bottom-0 right-0 h-32 w-40 bg-[radial-gradient(circle,rgba(255,255,255,0.08)_1px,transparent_1.5px)] [background-size:12px_12px]" />
             <div className="relative">
