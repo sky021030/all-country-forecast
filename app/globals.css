@@ -263,3 +263,18 @@ input[type="range"] { accent-color:#30dfc2; } input[type="range"]::-webkit-slide
 @keyframes gauge-node-pulse { to{opacity:.45;transform:translateY(-50%) scale(.72)} }
 @media(max-width:640px){.forecast-energy-gauge{grid-template-columns:1fr auto;margin-top:16px}.gauge-label{grid-column:1/-1;font-size:7px}.gauge-track{height:6px}.gauge-value{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.gauge-track b,.gauge-track i::after{animation:none!important}}
+
+/* Live market-view teletype */
+.market-teletype { position:relative;z-index:12;display:flex;height:42px;overflow:hidden;border-bottom:1px solid rgba(71,225,250,.3);background:rgba(0,8,20,.92);box-shadow:0 8px 24px rgba(0,0,0,.22),inset 0 -1px 0 rgba(91,236,255,.08);color:#c9f8ff; }
+.market-teletype-label { position:relative;z-index:2;display:flex;min-width:190px;align-items:center;gap:8px;padding:0 18px;border-right:1px solid rgba(81,229,252,.38);background:linear-gradient(90deg,#03263a,#06364b);color:#8df5ff;font-size:10px;font-weight:1000;letter-spacing:.13em;box-shadow:12px 0 22px rgba(0,10,22,.65); }
+.market-teletype-label small { padding:2px 5px;border:1px solid rgba(116,243,255,.4);border-radius:99px;color:#baf7ff;font-size:7px;letter-spacing:.08em; }
+.market-live-dot { width:7px;height:7px;flex:none;border-radius:50%;background:#68f1d0;box-shadow:0 0 10px #68f1d0;animation:market-dot 1.4s ease-in-out infinite alternate; }
+.market-teletype-window { min-width:0;flex:1;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent); }
+.market-teletype-track { display:flex;width:max-content;height:100%;align-items:center;will-change:transform;animation:market-ticker-scroll 48s linear infinite; }
+.market-teletype-set { display:flex;align-items:center;white-space:nowrap; }
+.market-teletype-item { display:inline-flex;align-items:center;gap:8px;padding:0 22px;color:#d9faff;font-size:11px;font-weight:700;letter-spacing:.02em; }
+.market-teletype-item i { color:#61eaff;font-size:8px;font-style:normal;text-shadow:0 0 8px #00d8ff; }
+@keyframes market-ticker-scroll { to{transform:translateX(-50%)} }
+@keyframes market-dot { to{opacity:.35;transform:scale(.7)} }
+@media(max-width:640px){.market-teletype{height:38px}.market-teletype-label{min-width:108px;padding:0 10px;gap:6px;font-size:8px}.market-teletype-label small{display:none}.market-teletype-item{padding:0 16px;font-size:10px}.market-teletype-track{animation-duration:58s}}
+@media(prefers-reduced-motion:reduce){.market-teletype-track{animation:none;transform:none}.market-live-dot{animation:none}}
