@@ -3,6 +3,7 @@ import { AssetSimulator } from "@/components/asset-simulator";
 import { AutoRefresh } from "@/components/auto-refresh";
 import { VirtualMotion } from "@/components/virtual-motion";
 import { AllCountryKun } from "@/components/all-country-kun";
+import { MarketTicker } from "@/components/market-ticker";
 import { ArrowUpRightIcon, GlobeIcon, InfoIcon } from "@/components/icons";
 import { getForecastData } from "@/lib/forecast";
 import type { CSSProperties } from "react";
@@ -40,6 +41,8 @@ export default async function Home() {
           </span>
         </div>
       </header>
+
+      <MarketTicker data={data} />
 
       <div className="relative mx-auto max-w-6xl px-5 pb-12 pt-8 sm:px-8 sm:pt-12 lg:px-10 lg:pb-16">
         <AllCountryKun />
